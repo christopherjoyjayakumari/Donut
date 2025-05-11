@@ -1,6 +1,3 @@
----
-
-````markdown
 # 🍩 Donut in C, Java & JavaScript
 
 ### A 3D Spinning ASCII Donut Across Languages – For Fun & Learning
@@ -51,7 +48,7 @@ A torus is defined using two angles:
 x = (R + r * cos(θ)) * cos(φ)
 y = (R + r * cos(θ)) * sin(φ)
 z = r * sin(θ)
-````
+
 
 ### 🎥 2. Rotation in 3D
 
