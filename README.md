@@ -6,84 +6,74 @@
 
 ## 📖 About the Project
 
-This is a fun, animated **3D ASCII donut** rendered in the terminal. It was originally inspired by a C implementation from [Andy Sloane](https://www.a1k0n.net/2011/07/20/donut-math.html), visualizing a rotating torus using pure math and character buffers.
+This project is a fun, animated **3D ASCII donut** rendered entirely in the terminal. It was originally inspired by a C implementation from [Andy Sloane](https://www.a1k0n.net/2011/07/20/donut-math.html), which visualizes a rotating torus using basic math and character buffers.
 
-As a personal challenge, I recreated the logic in **C**, **Java**, and **JavaScript** to:
-
+As a personal challenge, I recreated the same logic in **C**, **Java**, and **JavaScript** to:
 - Understand how terminal graphics work using only math.
 - Practice translating logic across different programming languages.
-- Appreciate how various languages handle **math, memory**, and **I/O** differently.
+- Appreciate how various languages handle **math, memory**, and **I/O operations** differently.
 
 ---
 
 ## 🎯 Purpose
 
-- ✅ Understand mathematical rendering of 3D shapes using ASCII.
-- ✅ Explore low-level graphics with basic trigonometry and buffers.
-- ✅ Practice algorithm translation between languages.
-- ✅ Compare language paradigms (procedural, OOP, scripting).
+- ✅ **Understand mathematical rendering** of 3D shapes using ASCII characters.
+- ✅ **Explore low-level graphics** using basic trigonometry, loops, and buffer arrays.
+- ✅ **Practice algorithm translation** between C, Java, and JavaScript.
+- ✅ **Compare language paradigms**, especially procedural (C), object-oriented (Java), and event-driven scripting (JavaScript).
 
 ---
 
 ## 🔧 Languages & Files
 
-| Language   | File Name     | Description                                                        |
-|------------|---------------|--------------------------------------------------------------------|
-| C          | `donut.c`     | The original and most efficient version (Andy Sloane’s logic).     |
-| Java       | `Donut.java`  | Object-oriented translation with animation in terminal.            |
-| JavaScript | `donut.js`    | Node.js-based terminal version, runs without a browser or GUI.     |
+| Language     | File Name    | Description                                                             |
+|--------------|--------------|-------------------------------------------------------------------------|
+| C            | `donut.c`    | The original and most efficient version based on Andy Sloane’s logic.   |
+| Java         | `Donut.java` | An object-oriented translation with terminal animation support.         |
+| JavaScript   | `donut.js`   | A Node.js terminal version, independent of browsers and GUIs.           |
 
 ---
 
-## 🔍 How It Works
+## 🔍 How It Works (Deep Dive)
 
-### 🧮 1. Torus Geometry
+Each version of this program simulates a rotating **torus** (donut) using the following steps:
 
-Using parametric equations with angles θ and φ:
+### 🧮 1. Torus Geometry – Parametric Equations
 
+A torus is defined using two angles:
+- **θ (theta):** around the tube (small radius)
+- **φ (phi):** around the center circle (large radius)
+
+```math
 x = (R + r * cos(θ)) * cos(φ)
 y = (R + r * cos(θ)) * sin(φ)
 z = r * sin(θ)
 
+🎥 2. Rotation in 3D
 
----
+To animate the donut, we apply rotation matrices on the 3D coordinates around the X and Z axes:
+y′=y∗cos(A)−z∗sin(A)z′=y∗sin(A)+z∗cos(A)x′=x∗cos(B)−y′∗sin(B)y′′=x∗sin(B)+y′∗cos(B)
+y′=y∗cos(A)−z∗sin(A)z′=y∗sin(A)+z∗cos(A)x′=x∗cos(B)−y′∗sin(B)y′′=x∗sin(B)+y′∗cos(B)
+👁 3. Perspective Projection
 
-### 🎥 2. Rotation
+To render the 3D points on a 2D screen, we use a basic perspective projection:
+xproj=screencenterx+scalefactor∗x/zyproj=screencentery+scalefactor∗y/z
+xp​roj=screenc​enterx​+scalef​actor∗x/zyp​roj=screenc​entery​+scalef​actor∗y/z
 
-3D rotation applied around X and Z axes using rotation matrices.
+This gives the illusion of depth as objects farther away appear smaller.
+🧱 4. Z-Buffering (Depth Handling)
 
----
+A z-buffer (depth array) is used to track the closest surface for each pixel/character. If the new point is closer to the viewer, it's drawn; otherwise, it's skipped.
+💡 5. Lighting and Shading
 
-### 👁 3. Perspective Projection
-
-Converts 3D coordinates to 2D screen space:
-
-x_proj = screen_center_x + scale * x / z
-y_proj = screen_center_y + scale * y / z
-
-
----
-
-### 🧱 4. Z-Buffering
-
-Keeps track of the closest point per pixel for depth management.
-
----
-
-### 💡 5. Lighting & Shading
-
-Brightness is computed with surface normals and mapped to characters:
+Using the surface normal and a fixed light direction, we calculate the brightness and map it to a character from a set:
 
 " .,-~:;=!*#$@"
 
+This simulates shading to give a 3D appearance with only text.
+🚀 How to Run
+⚙️ C
 
----
-
-## 🚀 How to Run
-
-### ⚙️ C
-
-```bash
 gcc donut.c -o donut
 ./donut
 
@@ -92,32 +82,34 @@ gcc donut.c -o donut
 javac Donut.java
 java Donut
 
-🌐 JavaScript (Node.js)
+🌐 JavaScript (Node.js required)
 
 node donut.js
 
-    💡 Use a terminal with monospaced fonts for best visual results.
+    💡 Tip: Use a terminal with monospaced fonts for best visual results.
 
 🙏 Credits
 
-    Original logic by Andy Sloane – Donut Math
+    Original algorithm by Andy Sloane: Donut Math Blog
 
-    Ported to Java and JavaScript by Christopher J
+    Converted and adapted to Java and JavaScript by Christopher J (me), with guidance and explanations via ChatGPT.
 
-    Supported with guidance from ChatGPT
+    This project is a tribute to the mathematical beauty of ASCII art and low-level animation.
 
 📌 Notes
 
-    No external libraries or graphics engines used.
+    No external libraries or graphics frameworks were used — everything is done with math and characters.
 
-    Best experienced in Unix-like terminals (Windows users: use ANSI-compatible emulators).
+    Works in most Unix-like terminals. On Windows, use a terminal emulator that supports ANSI escape codes for best results.
 
 🙌 Why I Made This
 
-As someone passionate about math, graphics, and programming, this project helped me:
+As a developer fascinated by math, graphics, and cross-language experimentation, I took this challenge to:
 
-    Deepen my understanding of 3D math and rendering.
+    Learn how different languages handle computational tasks.
 
-    Improve logic translation between different paradigms.
+    Deepen my understanding of 3D math, rendering, and buffer manipulation.
 
-    Have fun building something visual purely with code.
+    Experience the joy of making something purely visual using just code and logic.
+
+If you enjoy quirky, educational, and nostalgic programming experiments, give this repo a ⭐️ and try running it yourself!
