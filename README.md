@@ -1,65 +1,156 @@
-🍩 Donut in C, Java & JavaScript
-About the Project
+---
 
-This project is a fun, animated 3D spinning ASCII donut rendered entirely in the terminal. Originally inspired by a classic C donut animation created by Andy Sloane, this repository recreates the same logic in three different programming languages — C, Java, and JavaScript — as a tribute to both creativity and programming versatility.
-🎯 Purpose
+````markdown
+# 🍩 Donut in C, Java & JavaScript
 
-    ✅ To understand and implement mathematical rendering of 3D shapes using ASCII in multiple languages.
+### A 3D Spinning ASCII Donut Across Languages – For Fun & Learning
 
-    ✅ To explore low-level graphics logic using basic math, loops, and characters.
+---
 
-    ✅ To practice cross-language translation of the same algorithm.
+## 📖 About the Project
 
-    ✅ To appreciate how each programming language handles arrays, loops, and system output.
+This project is a fun, animated **3D ASCII donut** rendered entirely in the terminal. It was originally inspired by a C implementation from [Andy Sloane](https://www.a1k0n.net/2011/07/20/donut-math.html), which visualizes a rotating torus using basic math and character buffers.
 
-🔧 Languages Used
-Language	File Name	Purpose
-C	donut.c	The original inspiration and the most efficient version.
-Java	Donut.java	Object-oriented approach to the same logic with animation.
-JavaScript	donut.js	Browser-independent, Node.js-based terminal animation.
-🔍 How It Works
+As a personal challenge, I recreated the same logic in **C**, **Java**, and **JavaScript** to:
+- Understand how terminal graphics work using only math.
+- Practice translating logic across different programming languages.
+- Appreciate how various languages handle **math, memory**, and **I/O operations** differently.
 
-Each version of the program:
+---
 
-    Uses trigonometry (sine, cosine) to calculate a rotating torus (donut) shape in 3D.
+## 🎯 Purpose
 
-    Projects the 3D points onto a 2D terminal screen using perspective division.
+- ✅ **Understand mathematical rendering** of 3D shapes using ASCII characters.
+- ✅ **Explore low-level graphics** using basic trigonometry, loops, and buffer arrays.
+- ✅ **Practice algorithm translation** between C, Java, and JavaScript.
+- ✅ **Compare language paradigms**, especially procedural (C), object-oriented (Java), and event-driven scripting (JavaScript).
 
-    Uses depth buffering (z-buffering) to render the nearest characters.
+---
 
-    Converts brightness into ASCII characters (.,-~:;=!*#$@) to simulate shading.
+## 🔧 Languages & Files
 
-    Continuously updates the frame to animate the spinning donut.
+| Language     | File Name    | Description                                                             |
+|--------------|--------------|-------------------------------------------------------------------------|
+| C            | `donut.c`    | The original and most efficient version based on Andy Sloane’s logic.   |
+| Java         | `Donut.java` | An object-oriented translation with terminal animation support.         |
+| JavaScript   | `donut.js`   | A Node.js terminal version, independent of browsers and GUIs.           |
 
-🧠 Credits
+---
 
-    Original C donut algorithm by Andy Sloane – link to original blog
+## 🔍 How It Works (Deep Dive)
 
-    Java and JavaScript versions adapted and rewritten by Christopher J, with bug fixes and enhancements to make them function smoothly in respective environments.
+Each version of this program simulates a rotating **torus** (donut) using the following steps:
 
-🚀 How to Run
-C
+### 🧮 1. Torus Geometry – Parametric Equations
 
+A torus is defined using two angles:
+- **θ (theta):** around the tube (small radius)
+- **φ (phi):** around the center circle (large radius)
+
+```math
+x = (R + r * cos(θ)) * cos(φ)
+y = (R + r * cos(θ)) * sin(φ)
+z = r * sin(θ)
+````
+
+### 🎥 2. Rotation in 3D
+
+To animate the donut, we apply **rotation matrices** on the 3D coordinates around the X and Z axes:
+
+```math
+y' = y * cos(A) - z * sin(A)
+z' = y * sin(A) + z * cos(A)
+x' = x * cos(B) - y' * sin(B)
+y'' = x * sin(B) + y' * cos(B)
+```
+
+### 👁 3. Perspective Projection
+
+To render the 3D points on a 2D screen, we use a basic **perspective projection**:
+
+```math
+x_proj = screen_center_x + scale_factor * x / z
+y_proj = screen_center_y + scale_factor * y / z
+```
+
+This gives the illusion of depth as objects farther away appear smaller.
+
+### 🧱 4. Z-Buffering (Depth Handling)
+
+A **z-buffer** (depth array) is used to track the closest surface for each pixel/character. If the new point is closer to the viewer, it's drawn; otherwise, it's skipped.
+
+### 💡 5. Lighting and Shading
+
+Using the surface normal and a fixed light direction, we calculate the **brightness** and map it to a character from a set:
+
+```
+" .,-~:;=!*#$@"
+```
+
+This simulates shading to give a 3D appearance with only text.
+
+---
+
+## 🚀 How to Run
+
+### ⚙️ C
+
+```bash
 gcc donut.c -o donut
 ./donut
+```
 
-Java
+### ☕ Java
 
+```bash
 javac Donut.java
 java Donut
+```
 
-JavaScript (Node.js required)
+### 🌐 JavaScript (Node.js required)
 
+```bash
 node donut.js
+```
 
-📌 Note
+> 💡 Tip: Use a terminal with **monospaced fonts** for best visual results.
 
-    Works best in terminals with monospaced fonts.
+---
 
-    This is a purely text-based rendering — no graphics or external libraries are used.
+## 🙏 Credits
 
-🙌 Why I Made This
+* Original algorithm by **Andy Sloane**: [Donut Math Blog](https://www.a1k0n.net/2011/07/20/donut-math.html)
+* Converted and adapted to **Java** and **JavaScript** by **Christopher J** (me), with guidance and explanations via **ChatGPT**.
+* This project is a tribute to the mathematical beauty of ASCII art and low-level animation.
 
-As a passionate developer interested in low-level graphics, math, and cross-language exploration, I took up the challenge of understanding the original donut code and rewriting it in C, Java, and JavaScript. This project helped me appreciate how a single algorithm can be translated across paradigms and runtime environments.
+---
 
-Feel free to ⭐ star the repository if you enjoyed this nostalgic trip into ASCII art and programming creativity!
+## 📌 Notes
+
+* No external libraries or graphics frameworks were used — everything is done with **math and characters**.
+* Works in most Unix-like terminals. On Windows, use a terminal emulator that supports ANSI escape codes for best results.
+
+---
+
+## 🙌 Why I Made This
+
+As a developer fascinated by **math, graphics, and cross-language experimentation**, I took this challenge to:
+
+* Learn how different languages handle computational tasks.
+* Deepen my understanding of **3D math**, rendering, and buffer manipulation.
+* Experience the joy of making something purely visual using just **code and logic**.
+
+If you enjoy quirky, educational, and nostalgic programming experiments, give this repo a ⭐️ and try running it yourself!
+
+---
+
+## 🔗 Let’s Connect
+
+Feel free to reach out or connect with me on [LinkedIn](#) to talk more about code, math, or creative tech experiments.
+
+---
+
+```
+
+Would you like me to help you write a short version of this for your **LinkedIn post**, linking back to your GitHub repository?
+```
